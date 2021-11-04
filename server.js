@@ -44,12 +44,35 @@ app.use(morgan("dev"))
 app.use(express.json())
 
 ////////////////////////////////////////////////
+// Seed
+////////////////////////////////////////////////
+const cheeses = [
+    {
+        name: "Gruyere",
+        countryOfOrigin: "Switzerland",
+        image: "https://upload.wikimedia.org/wikipedia/commons/d/d9/Gruyere_alpage_th_wa.jpg"
+    },
+    {
+        name: "Mizithra",
+        countryOfOrigin: "Greece",
+        image: "https://upload.wikimedia.org/wikipedia/commons/f/fb/Homemade_Mizithra.jpg"
+    },
+    {
+        name: "Cotswold",
+        countryOfOrigin: "United Kingdom",
+        image: "https://cdn.shopify.com/s/files/1/0176/4774/products/Long_Clawson_Cotswold__40844.1557362793.jpg?v=1587210359"
+    }
+]
+
+////////////////////////////////////////////////
 // Routes
 ////////////////////////////////////////////////
 
-// Test
-app.get("/", (req,res) => {
-    res.send("hello cheese")
+// Seed
+app.get("/cheese/seed", async (req,res) => {
+    await Cheese.deleteMany({})
+    const startCheeses = await Cheese.create(cheeses)
+    res.json(startCheeses)
 })
 
 // Index
